@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-"""cfg.py: Configuration file."""
+"""cfg.py: Configuration file and extra functions."""
 
 __author__ = "Aldo Vargas"
 __copyright__ = "Copyright 2014 Aldux.net"
