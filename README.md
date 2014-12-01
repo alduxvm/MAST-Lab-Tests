@@ -6,8 +6,8 @@ This is a text based / console, no GUI, it works for saving data from the multic
 
 ## Current scripts:
 
-..* simple.py -> Script to launch read and save data with one or two boards.
-..* 2boards.py -> Threaded Script to launch read and save data from two MultiWii boards and UDP. We use this one to read RC channels from the flying FC and ask raw imu data to the piggyback board with a defined 20hz for the MPU6050, in order to eliminate the accelerometer readings and be able to do systems indetification, we requiere two boards just because flying at 20hz update rate for the MPU6050 is highly unstable.
+* simple.py -> Script to launch read and save data with one or two boards.
+* 2boards.py -> Threaded Script to launch read and save data from two MultiWii boards and UDP. We use this one to read RC channels from the flying FC and ask raw imu data to the piggyback board with a defined 20hz for the MPU6050, in order to eliminate the accelerometer readings and be able to do systems indetification, we requiere two boards just because flying at 20hz update rate for the MPU6050 is highly unstable.
 
 ## Why?
 
@@ -31,6 +31,6 @@ This code is still under heavy development, everyday I add and remove stuff. Pro
 
 You can follow us in this URL's:
 
-..* [Aldux.net](http://aldux.net/)
-..* [Aldux.net Facebook](https://www.facebook.com/AlduxNet)
-..* [MAST Lab Facebook](https://www.facebook.com/MASTLab)
+* [Aldux.net](http://aldux.net/)
+* [Aldux.net Facebook](https://www.facebook.com/AlduxNet)
+* [MAST Lab Facebook](https://www.facebook.com/MASTLab)
