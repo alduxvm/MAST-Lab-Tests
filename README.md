@@ -15,7 +15,7 @@ Here in the MAST Lab (Micro Aerial Systems Technologies Laboratory) of the Unive
 
 We have a position controller working with the multiwii board being flow by Simulink using data from the motion capture system (Optitrack) and just sending rc channels via a serial wireless radio (roll, pitch, yaw, throttle), you can see a video about that here [TEGO indoor position control](https://vimeo.com/105761692)
 
-More info on the old arquitecture ![here.](http://aldux.net/rd/tego-indoor-position-control "More info")
+More info on the old arquitecture [here.](http://aldux.net/rd/tego-indoor-position-control "More info")
 
 Next step is putting a more powerful computer onboard, we decided to use a Raspberry Pie, this computer ask data to the multwii boards and also to the motion capture system, and saves it.
 
