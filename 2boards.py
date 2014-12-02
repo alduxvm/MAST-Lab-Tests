@@ -25,17 +25,19 @@ if __name__ == "__main__":
     try:
 
         if cfg.DRONE:
-            board1 = MultiWii("/dev/tty.usbserial-A101CCVF")
-            readThread = threading.Thread(target=board1.getDataInf, args=(MultiWii.ATTITUDE,))
+            #board1 = MultiWii("/dev/tty.usbserial-A101CCVF")
+            flightController = MultiWii("/dev/ttyUSB1")
+            readThread = threading.Thread(target=flightController.getDataInf, args=(MultiWii.ATTITUDE,))
             readThread.start()
 
         if cfg.DRONE2:
-            board2 = MultiWii("/dev/tty.usbserial-A801WZA1")
-            readThread = threading.Thread(target=board2.getDataInf, args=(MultiWii.ATTITUDE,))
+            #board2 = MultiWii("/dev/tty.usbserial-A801WZA1")
+            piggybackBoard = MultiWii("/dev/ttyUSB0")
+            readThread = threading.Thread(target=piggybackBoard.getDataInf, args=(MultiWii.ATTITUDE,))
             readThread.start()
 
         if cfg.PRINT:
-            printThread = threading.Thread(target=cfg.manage2streams, args=(board1.attitude, board2.attitude,))
+            printThread = threading.Thread(target=cfg.manage2streams, args=(flightController.attitude, piggybackBoard.attitude,))
             printThread.start()
 
         if cfg.TWIS:

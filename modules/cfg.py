@@ -18,7 +18,7 @@ import optiUDP
 
 """General settings"""
 DRONE   =   1   # Connect to MultiWii and save data
-DRONE2  =   2   # Connect to MultiWii and save data
+DRONE2  =   1   # Connect to MultiWii and save data
 PRINT   =   1   # Print data to terminal, useful for debugging
 FILE    =   0   # Save to a timestamped file, the data selected below
 ATT     =   1   # Ask and save the attitude of the multicopter
