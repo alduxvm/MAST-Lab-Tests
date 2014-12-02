@@ -20,19 +20,24 @@ if __name__ == "__main__":
 
 	#MSP.startMulticopter()
 
-	#board1 = MultiWii("/dev/tty.usbserial-A101CCVF")
+	board1 = MultiWii("/dev/tty.usbserial-A101CCVF")
 	#board2 = MultiWii("/dev/tty.usbserial-A801WZA1")
-	piggybackBoard = MultiWii("/dev/ttyUSB0")
-	flightController = MultiWii("/dev/ttyUSB1")
+	#piggybackBoard = MultiWii("/dev/ttyUSB0")
+	#flightController = MultiWii("/dev/ttyUSB1")
 
 
 	try:
 		while True:
-			flightController.getData(MultiWii.ATTITUDE)
-			piggybackBoard.getData(MultiWii.ATTITUDE)
-			line = "1:"+str(flightController.attitude)
-			line += " 2:"+str(piggybackBoard.attitude)
+			board1.getData(MultiWii.ATTITUDE)
+			line = str(board1.attitude)
+
+			#flightController.getData(MultiWii.ATTITUDE)
+			#piggybackBoard.getData(MultiWii.ATTITUDE)
+			#line = "1:"+str(flightController.attitude)
+			#line += " 2:"+str(piggybackBoard.attitude)
+
 			print line
+			line = ""
 			#MSP.getData(MSP.ATTITUDE)
 	except Exception,error:
 		print "Error: "+str(error)

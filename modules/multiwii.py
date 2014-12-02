@@ -130,14 +130,14 @@ class MultiWii:
                 self.attitude['angx']=float(temp[0]/10.0)
                 self.attitude['angy']=float(temp[1]/10.0)
                 self.attitude['heading']=float(temp[2])
-                self.attitude['elapsed']=round(elapsed,3)
+                self.attitude['elapsed']="%0.3f" % (elapsed,)
                 self.attitude['timestamp']="%0.2f" % (time.time(),)
                 return self.attitude
             elif cmd == MultiWii.RC:
                 for value in self.rcChannels:
                     self.rcChannels[value]=temp[i]
                     i+=1
-                self.rcChannels['elapsed']=round(elapsed,3)
+                self.rcChannels['elapsed']="%0.3f" % (elapsed,)
                 self.rcChannels['timestamp']="%0.2f" % (time.time(),)
                 return self.rcChannels
             elif cmd == MultiWii.RAW_IMU:
@@ -147,7 +147,7 @@ class MultiWii:
                 self.rawIMU['gx']=float(temp[3])
                 self.rawIMU['gy']=float(temp[4])
                 self.rawIMU['gz']=float(temp[5])
-                self.rawIMU['elapsed']=round(elapsed,3)
+                self.rawIMU['elapsed']="%0.3f" % (elapsed,)
                 self.rawIMU['timestamp']="%0.2f" % (time.time(),)
                 return self.rawIMU
             else:
@@ -178,13 +178,13 @@ class MultiWii:
                     self.attitude['angx']=float(temp[0]/10.0)
                     self.attitude['angy']=float(temp[1]/10.0)
                     self.attitude['heading']=float(temp[2])
-                    self.attitude['elapsed']=round(elapsed,3)
+                    self.attitude['elapsed']="%0.3f" % (elapsed,)
                     self.attitude['timestamp']="%0.2f" % (time.time(),)
                 elif cmd == MultiWii.RC:
                     for value in self.rcChannels:
                         self.rcChannels[value]=temp[i]
                         i+=1
-                    self.rcChannels['elapsed']=round(elapsed,3)
+                    self.rcChannels['elapsed']="%0.3f" % (elapsed,)
                     self.rcChannels['timestamp']="%0.2f" % (time.time(),)
                 elif cmd == MultiWii.RAW_IMU:
                     self.rawIMU['ax']=float(temp[0])
@@ -193,7 +193,7 @@ class MultiWii:
                     self.rawIMU['gx']=float(temp[3])
                     self.rawIMU['gy']=float(temp[4])
                     self.rawIMU['gz']=float(temp[5])
-                    self.rawIMU['elapsed']=round(elapsed,3)
+                    self.rawIMU['elapsed']="%0.3f" % (elapsed,)
                     self.rawIMU['timestamp']="%0.2f" % (time.time(),)
             except Exception, error:
                 pass
