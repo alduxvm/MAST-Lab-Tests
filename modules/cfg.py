@@ -18,14 +18,14 @@ import optiUDP
 
 """General settings"""
 DRONE   =   1   # Connect to MultiWii and save data
-DRONE2  =   1   # Connect to MultiWii and save data
+DRONE2  =   0   # Connect to MultiWii and save data
 PRINT   =   1   # Print data to terminal, useful for debugging
 FILE    =   0   # Save to a timestamped file, the data selected below
-ATT     =   1   # Ask and save the attitude of the multicopter
+ATT     =   0   # Ask and save the attitude of the multicopter
 ALT     =   0   # Ask and save the altitude of the multicopter
 RC      =   0   # Ask and save the pilot commands of the multicopter
 MOT     =   0   # Ask and save the PWM of the motors that the MW is writing to the multicopter
-RAW     =   0   # Ask and save the raw imu data of the multicopter
+RAW     =   1   # Ask and save the raw imu data of the multicopter
 RCRAW   =   0   # Ask and save the rc & raw imu data of the multicopter
 CMD     =   0   # Send commands to the MW to control it
 UDP     =   0   # Save or use UDP data (to be adjusted)
