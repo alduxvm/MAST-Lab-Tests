@@ -25,8 +25,8 @@ if __name__ == "__main__":
     try:
 
         if cfg.DRONE:
-            flightController = MultiWii("/dev/tty.usbserial-A101CCVF")
-            #flightController = MultiWii("/dev/ttyUSB1")
+            #flightController = MultiWii("/dev/tty.usbserial-A101CCVF")
+            flightController = MultiWii("/dev/ttyUSB0")
             readThread = threading.Thread(target=flightController.getDataInf, args=(MultiWii.RAW_IMU,))
             readThread.start()
 
