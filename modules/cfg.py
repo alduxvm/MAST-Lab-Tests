@@ -53,6 +53,10 @@ def get_ip_address(ifname):
 
 def manage2streams(data1,data2):
     global line
+    ip = get_ip_address('wlan0')
+    ipnum = float(ip.translate(None, '.'))
+    if SUDP:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     if FILE:
         st = datetime.datetime.fromtimestamp(time.time()).strftime('%m_%d_%H-%M-%S')+".csv"
         file = open("data/"+st, "w")
@@ -62,9 +66,9 @@ def manage2streams(data1,data2):
             line += str(data2['angx']) + " " + str(data2['angy']) + " " + str(data2['heading']) + " " 
         if RC:
             line += str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['roll']) + " " + str(data1['pitch']) + " " + str(data1['yaw']) + " " + str(data1['throttle']) + " " 
-            line += str(data2['roll']) + " " + str(data2['pitch']) + " " + str(data2['yaw']) + " " + str(data2['throttle']) + " " 
+            #line += str(data2['roll']) + " " + str(data2['pitch']) + " " + str(data2['yaw']) + " " + str(data2['throttle']) + " " 
         if RAW:
-            line += str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['ax']) + " " + str(data1['ay']) + " " + str(data1['az']) + " " + str(data1['gx']) + " " + str(data1['gy']) + " " + str(data1['gz']) + " "
+            #line += str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['ax']) + " " + str(data1['ay']) + " " + str(data1['az']) + " " + str(data1['gx']) + " " + str(data1['gy']) + " " + str(data1['gz']) + " "
             line += str(data2['ax']) + " " + str(data2['ay']) + " " + str(data2['az']) + " " + str(data2['gx']) + " " + str(data2['gy']) + " " + str(data2['gz']) + " "
         if UDP:
             line += " ".join(map(str,optiUDP.UDPmess))
