@@ -27,11 +27,11 @@ if __name__ == "__main__":
         if cfg.DRONE:
             flightController = MultiWii("/dev/tty.usbserial-A101CCVF")
             #flightController = MultiWii("/dev/ttyUSB1")
-            readThread = threading.Thread(target=flightController.getDataInf, args=(MultiWii.ATTITUDE,))
+            readThread = threading.Thread(target=flightController.getDataInf, args=(MultiWii.RAW_IMU,))
             readThread.start()
 
         if cfg.PRINT:
-            printThread = threading.Thread(target=cfg.manageData, args=(flightController.attitude,))
+            printThread = threading.Thread(target=cfg.manageData, args=(flightController.rawIMU,))
             printThread.start()
 
         if cfg.TWIS:

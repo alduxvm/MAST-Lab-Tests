@@ -12,7 +12,7 @@ __email__ = "alduxvm@gmail.com"
 __status__ = "Development"
 
 
-import serial, time, datetime, socket, struct
+import serial, time, datetime, socket, struct, fcntl
 import optiUDP
 
 
@@ -34,12 +34,21 @@ TWIS    =   0   # Use twisted
 
 
 """UDP ips and ports"""
-UDPip = "localhost"
-#UDPip = "" #MAST Lab IP
+#UDPip = "localhost"
+#UDPip = "130.209.140.214" #MAST Lab IP eduram
+UDPip = "172.30.17.51" #MAST Lab IP flexaccess
 UDPport = 51001
 UDPportOut = 51002
 line = ""
 rate = 0.02
+
+def get_ip_address(ifname):
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    return socket.inet_ntoa(fcntl.ioctl(
+        s.fileno(),
+        0x8915,  # SIOCGIFADDR
+        struct.pack('256s', ifname[:15])
+    )[20:24])
 
 
 def manage2streams(data1,data2):
@@ -82,6 +91,8 @@ def manage2streams(data1,data2):
 
 def manageData(data1):
     global line
+    ip = get_ip_address('wlan0')
+    ip = float(ip.translate(None, '.'))
     if SUDP:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     if FILE:
@@ -89,11 +100,11 @@ def manageData(data1):
         file = open("data/"+st, "w")
     while True:
         if ATT:
-            line += str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['angx']) + " " + str(data1['angy']) + " " + str(data1['heading']) + " " 
+            line += str(ip) + str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['angx']) + " " + str(data1['angy']) + " " + str(data1['heading']) + " " 
         if RC:
-            line += str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['roll']) + " " + str(data1['pitch']) + " " + str(data1['yaw']) + " " + str(data1['throttle']) + " "  
+            line += str(ip) + str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['roll']) + " " + str(data1['pitch']) + " " + str(data1['yaw']) + " " + str(data1['throttle']) + " "  
         if RAW:
-            line += str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['ax']) + " " + str(data1['ay']) + " " + str(data1['az']) + " " + str(data1['gx']) + " " + str(data1['gy']) + " " + str(data1['gz']) + " "
+            line += str(ip) + str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['ax']) + " " + str(data1['ay']) + " " + str(data1['az']) + " " + str(data1['gx']) + " " + str(data1['gy']) + " " + str(data1['gz']) + " "
         if UDP:
             line += " ".join(map(str,optiUDP.UDPmess))
         if FILE:
@@ -102,11 +113,11 @@ def manageData(data1):
             print line
         if SUDP:
             if ATT:
-                values = (float(data1['timestamp']), float(data1['elapsed']), data1['angx'], data1['angy'], data1['heading'])
+                values = (ip, float(data1['timestamp']), float(data1['elapsed']), data1['angx'], data1['angy'], data1['heading'])
             if RC:
-                values = (float(data1['timestamp']), float(data1['elapsed']), data1['roll'], data1['pitch'], data1['yaw'], data1['throttle'])
+                values = (ip, float(data1['timestamp']), float(data1['elapsed']), data1['roll'], data1['pitch'], data1['yaw'], data1['throttle'])
             if RAW:
-                values = (float(data1['timestamp']), float(data1['elapsed']), data1['ax'], data1['ay'], data1['az'], data1['gx'], data1['gy'], data1['gz'])
+                values = (ip, float(data1['timestamp']), float(data1['elapsed']), data1['ax'], data1['ay'], data1['az'], data1['gx'], data1['gy'], data1['gz'])
             s = struct.Struct('>'+'d'*len(values))
             packet = s.pack(*values)
             sock.sendto(packet, (UDPip, UDPportOut))
