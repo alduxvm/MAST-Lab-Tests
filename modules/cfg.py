@@ -92,7 +92,7 @@ def manage2streams(data1,data2):
 def manageData(data1):
     global line
     ip = get_ip_address('wlan0')
-    ip = float(ip.translate(None, '.'))
+    ipnum = float(ip.translate(None, '.'))
     if SUDP:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     if FILE:
@@ -100,11 +100,11 @@ def manageData(data1):
         file = open("data/"+st, "w")
     while True:
         if ATT:
-            line += str(ip) + str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['angx']) + " " + str(data1['angy']) + " " + str(data1['heading']) + " " 
+            line += str(ip) + " " + str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['angx']) + " " + str(data1['angy']) + " " + str(data1['heading']) + " " 
         if RC:
-            line += str(ip) + str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['roll']) + " " + str(data1['pitch']) + " " + str(data1['yaw']) + " " + str(data1['throttle']) + " "  
+            line += str(ip) + " " + str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['roll']) + " " + str(data1['pitch']) + " " + str(data1['yaw']) + " " + str(data1['throttle']) + " "  
         if RAW:
-            line += str(ip) + str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['ax']) + " " + str(data1['ay']) + " " + str(data1['az']) + " " + str(data1['gx']) + " " + str(data1['gy']) + " " + str(data1['gz']) + " "
+            line += str(ip) + " " + str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['ax']) + " " + str(data1['ay']) + " " + str(data1['az']) + " " + str(data1['gx']) + " " + str(data1['gy']) + " " + str(data1['gz']) + " "
         if UDP:
             line += " ".join(map(str,optiUDP.UDPmess))
         if FILE:
@@ -113,11 +113,11 @@ def manageData(data1):
             print line
         if SUDP:
             if ATT:
-                values = (ip, float(data1['timestamp']), float(data1['elapsed']), data1['angx'], data1['angy'], data1['heading'])
+                values = (ipnum, float(data1['timestamp']), float(data1['elapsed']), data1['angx'], data1['angy'], data1['heading'])
             if RC:
-                values = (ip, float(data1['timestamp']), float(data1['elapsed']), data1['roll'], data1['pitch'], data1['yaw'], data1['throttle'])
+                values = (ipnum, float(data1['timestamp']), float(data1['elapsed']), data1['roll'], data1['pitch'], data1['yaw'], data1['throttle'])
             if RAW:
-                values = (ip, float(data1['timestamp']), float(data1['elapsed']), data1['ax'], data1['ay'], data1['az'], data1['gx'], data1['gy'], data1['gz'])
+                values = (ipnum, float(data1['timestamp']), float(data1['elapsed']), data1['ax'], data1['ay'], data1['az'], data1['gx'], data1['gy'], data1['gz'])
             s = struct.Struct('>'+'d'*len(values))
             packet = s.pack(*values)
             sock.sendto(packet, (UDPip, UDPportOut))
