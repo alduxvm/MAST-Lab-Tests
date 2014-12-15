@@ -13,24 +13,25 @@ __status__ = "Development"
 
 
 import serial, time, datetime, socket, struct, fcntl
-import optiUDP
+#import optiUDP
 
 
 """General settings"""
 DRONE   =   1   # Connect to MultiWii and save data
-DRONE2  =   1   # Connect to MultiWii and save data
+DRONE2  =   0   # Connect to MultiWii and save data
 PRINT   =   1   # Print data to terminal, useful for debugging
 FILE    =   0   # Save to a timestamped file, the data selected below
-ATT     =   0   # Ask and save the attitude of the multicopter
+ATT     =   1   # Ask and save the attitude of the multicopter
 ALT     =   0   # Ask and save the altitude of the multicopter
-RC      =   1   # Ask and save the pilot commands of the multicopter
+RC      =   0   # Ask and save the pilot commands of the multicopter
 MOT     =   0   # Ask and save the PWM of the motors that the MW is writing to the multicopter
-RAW     =   1   # Ask and save the raw imu data of the multicopter
+RAW     =   0   # Ask and save the raw imu data of the multicopter
 RCRAW   =   0   # Ask and save the rc & raw imu data of the multicopter
 CMD     =   0   # Send commands to the MW to control it
 UDP     =   0   # Save or use UDP data (to be adjusted)
 SUDP    =   0   # Send UDP data
 TWIS    =   0   # Use twisted 
+visual3d    =   1   # 3D visualization
 
 
 """UDP ips and ports"""
@@ -53,10 +54,10 @@ def get_ip_address(ifname):
 
 def manage2streams(data1,data2):
     global line
-    ip = get_ip_address('wlan0')
-    ipnum = float(ip.translate(None, '.'))
     if SUDP:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        ip = get_ip_address('wlan0')
+        ipnum = float(ip.translate(None, '.'))
     if FILE:
         st = datetime.datetime.fromtimestamp(time.time()).strftime('%m_%d_%H-%M-%S')+".csv"
         file = open("data/"+st, "w")
@@ -96,10 +97,10 @@ def manage2streams(data1,data2):
 
 def manageData(data1):
     global line
-    ip = get_ip_address('wlan0')
-    ipnum = float(ip.translate(None, '.'))
     if SUDP:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        ip = get_ip_address('wlan0')
+        ipnum = float(ip.translate(None, '.'))
     if FILE:
         st = datetime.datetime.fromtimestamp(time.time()).strftime('%m_%d_%H-%M-%S')+".csv"
         file = open("data/"+st, "w")
@@ -112,9 +113,15 @@ def manageData(data1):
             line += str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['ax']) + " " + str(data1['ay']) + " " + str(data1['az']) + " " + str(data1['gx']) + " " + str(data1['gy']) + " " + str(data1['gz']) + " "
         if UDP:
             line += " ".join(map(str,optiUDP.UDPmess))
-        if FILE:
+        flag = 0
+        if optiUDP.UDPmess == "":
+            flag = 0
+        else:
+            flag = 1
+        if FILE and flag:
             file.write(line+"\n")
         if PRINT:
+            print data1
             print line
         if SUDP:
             if ATT:
