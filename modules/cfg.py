@@ -32,7 +32,7 @@ CMD     =   0   # Send commands to the MW to control it
 UDP     =   0   # Save or use UDP data (to be adjusted)
 SUDP    =   0   # Send UDP data
 TWIS    =   0   # Use twisted 
-visual3d    =   1   # 3D visualization
+visual3d    =   0   # 3D visualization
 
 
 """UDP ips and ports"""

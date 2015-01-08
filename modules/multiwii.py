@@ -61,7 +61,7 @@ class MultiWii:
         self.rcChannels = {'roll':0,'pitch':0,'yaw':0,'throttle':0,'elapsed':0,'timestamp':0}
         self.rawIMU = {'ax':0,'ay':0,'az':0,'gx':0,'gy':0,'gz':0,'elapsed':0,'timestamp':0}
         self.attitude = {'angx':0,'angy':0,'heading':0,'elapsed':0,'timestamp':0}
-        self.motor = {'m1':0,'m2':0,'m3':0,'m4':0,'timestamp':0}
+        self.motor = {'m1':0,'m2':0,'m3':0,'m4':0,'elapsed':0,'timestamp':0}
         self.temp = ();
         self.elapsed = 0
         self.PRINT = 1
