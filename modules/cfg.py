@@ -21,11 +21,12 @@ DRONE   =   1   # Connect to MultiWii and save data
 DRONE2  =   0   # Connect to MultiWii and save data
 PRINT   =   1   # Print data to terminal, useful for debugging
 FILE    =   0   # Save to a timestamped file, the data selected below
-ATT     =   1   # Ask and save the attitude of the multicopter
+ATT     =   0   # Ask and save the attitude of the multicopter
 ALT     =   0   # Ask and save the altitude of the multicopter
 RC      =   0   # Ask and save the pilot commands of the multicopter
 MOT     =   0   # Ask and save the PWM of the motors that the MW is writing to the multicopter
 RAW     =   0   # Ask and save the raw imu data of the multicopter
+MOTOR   =   1   # Ask and save the motors pwm of the multicopter
 RCRAW   =   0   # Ask and save the rc & raw imu data of the multicopter
 CMD     =   0   # Send commands to the MW to control it
 UDP     =   0   # Save or use UDP data (to be adjusted)
@@ -111,6 +112,8 @@ def manageData(data1):
             line += str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['roll']) + " " + str(data1['pitch']) + " " + str(data1['yaw']) + " " + str(data1['throttle']) + " "  
         if RAW:
             line += str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['ax']) + " " + str(data1['ay']) + " " + str(data1['az']) + " " + str(data1['gx']) + " " + str(data1['gy']) + " " + str(data1['gz']) + " "
+        if MOTOR:
+            line += str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['m1']) + " " + str(data1['m2']) + " " + str(data1['m3']) + " " + str(data1['m4']) + " "
         if UDP:
             line += " ".join(map(str,optiUDP.UDPmess))
         flag = 0
@@ -130,6 +133,8 @@ def manageData(data1):
                 values = (ipnum, float(data1['timestamp']), float(data1['elapsed']), data1['roll'], data1['pitch'], data1['yaw'], data1['throttle'])
             if RAW:
                 values = (ipnum, float(data1['timestamp']), float(data1['elapsed']), data1['ax'], data1['ay'], data1['az'], data1['gx'], data1['gy'], data1['gz'])
+            if MOTOR:
+                values = (ipnum, float(data1['timestamp']), float(data1['elapsed']), data1['m1'], data1['m2'], data1['m3'], data1['m4'])
             s = struct.Struct('>'+'d'*len(values))
             packet = s.pack(*values)
             sock.sendto(packet, (UDPip, UDPportOut))
