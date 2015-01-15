@@ -53,6 +53,7 @@ class MultiWii:
     SWITCH_RC_SERIAL = 210
     IS_SERIAL = 211
     DEBUG = 254
+    SPECIAL = 0 #Special case for getting two cmds in one function call
 
     """Class initialization"""
     def __init__(self, serPort):
@@ -62,7 +63,9 @@ class MultiWii:
         self.rawIMU = {'ax':0,'ay':0,'az':0,'gx':0,'gy':0,'gz':0,'elapsed':0,'timestamp':0}
         self.attitude = {'angx':0,'angy':0,'heading':0,'elapsed':0,'timestamp':0}
         self.motor = {'m1':0,'m2':0,'m3':0,'m4':0,'elapsed':0,'timestamp':0}
+        self.special = {'angx':0,'angy':0,'heading':0,'roll':0,'pitch':0,'yaw':0,'throttle':0,'elapsed':0,'timestamp':0}
         self.temp = ();
+        self.temp2 = ();
         self.elapsed = 0
         self.PRINT = 1
 
@@ -216,5 +219,50 @@ class MultiWii:
             except Exception, error:
                 pass
 
+
+    """Special function to receive two data packets from the board, attitude and rc channels"""
+    def getDataSpecial(self, cmd):
+        while True:
+            try:
+                start = time.clock()
+                self.sendCMD(0,self.ATTITUDE,[])
+                while True:
+                    header = self.ser.read()
+                    if header == '$':
+                        header = header+self.ser.read(2)
+                        break
+                datalength = struct.unpack('<b', self.ser.read())[0]
+                code = struct.unpack('<b', self.ser.read())
+                data = self.ser.read(datalength)
+                temp = struct.unpack('<'+'h'*(datalength/2),data)
+                self.ser.flushInput()
+                self.ser.flushOutput()
+
+                self.sendCMD(0,self.RC,[])
+                while True:
+                    header = self.ser.read()
+                    if header == '$':
+                        header = header+self.ser.read(2)
+                        break
+                datalength = struct.unpack('<b', self.ser.read())[0]
+                code = struct.unpack('<b', self.ser.read())
+                data = self.ser.read(datalength)
+                temp2 = struct.unpack('<'+'h'*(datalength/2),data)
+                self.ser.flushInput()
+                self.ser.flushOutput()
+                elapsed = time.clock() - start
+                
+                if cmd == MultiWii.SPECIAL:
+                    self.special['angx']=float(temp[0]/10.0)
+                    self.special['angy']=float(temp[1]/10.0)
+                    self.special['heading']=float(temp[2])
+                    self.special['roll']=temp2[0]
+                    self.special['pitch']=temp2[1]
+                    self.special['yaw']=temp2[2]
+                    self.special['throttle']=temp2[3]
+                    self.special['elapsed']="%0.3f" % (elapsed,)
+                    self.special['timestamp']="%0.2f" % (time.time(),)
+            except Exception, error:
+                pass
 
 

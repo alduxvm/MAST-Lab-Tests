@@ -13,7 +13,7 @@ __status__ = "Development"
 
 
 import serial, time, datetime, socket, struct, fcntl
-#import optiUDP
+import optiUDP
 
 
 """General settings"""
@@ -26,8 +26,8 @@ ALT     =   0   # Ask and save the altitude of the multicopter
 RC      =   0   # Ask and save the pilot commands of the multicopter
 MOT     =   0   # Ask and save the PWM of the motors that the MW is writing to the multicopter
 RAW     =   0   # Ask and save the raw imu data of the multicopter
-MOTOR   =   1   # Ask and save the motors pwm of the multicopter
-RCRAW   =   0   # Ask and save the rc & raw imu data of the multicopter
+MOTOR   =   0   # Ask and save the motors pwm of the multicopter
+ATTRC   =   1   # Ask and save the att & rc data of the multicopter
 CMD     =   0   # Send commands to the MW to control it
 UDP     =   0   # Save or use UDP data (to be adjusted)
 SUDP    =   0   # Send UDP data
@@ -114,6 +114,8 @@ def manageData(data1):
             line += str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['ax']) + " " + str(data1['ay']) + " " + str(data1['az']) + " " + str(data1['gx']) + " " + str(data1['gy']) + " " + str(data1['gz']) + " "
         if MOTOR:
             line += str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['m1']) + " " + str(data1['m2']) + " " + str(data1['m3']) + " " + str(data1['m4']) + " "
+        if ATTRC:
+            line += str(data1['timestamp']) + " " + str(data1['elapsed']) + " " + str(data1['angx']) + " " + str(data1['angy']) + " " + str(data1['heading']) + " " + str(data1['roll']) + " " + str(data1['pitch']) + " " + str(data1['yaw']) + " " + str(data1['throttle']) + " "
         if UDP:
             line += " ".join(map(str,optiUDP.UDPmess))
         flag = 0
@@ -124,7 +126,7 @@ def manageData(data1):
         if FILE and flag:
             file.write(line+"\n")
         if PRINT:
-            print data1
+            #print data1
             print line
         if SUDP:
             if ATT:
