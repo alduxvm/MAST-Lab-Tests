@@ -220,7 +220,7 @@ class MultiWii:
                 pass
 
 
-    """Special function to receive two data packets from the board, attitude and rc channels"""
+    """Special function to receive two data packets from the board, attitude and rc channels, almost at the same time"""
     def getDataSpecial(self, cmd):
         while True:
             try:

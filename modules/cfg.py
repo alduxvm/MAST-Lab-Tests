@@ -21,17 +21,17 @@ DRONE   =   1   # Connect to MultiWii and save data
 DRONE2  =   0   # Connect to MultiWii and save data
 PRINT   =   1   # Print data to terminal, useful for debugging
 FILE    =   0   # Save to a timestamped file, the data selected below
-ATT     =   0   # Ask and save the attitude of the multicopter
+ATT     =   1   # Ask and save the attitude of the multicopter
 ALT     =   0   # Ask and save the altitude of the multicopter
 RC      =   0   # Ask and save the pilot commands of the multicopter
 MOT     =   0   # Ask and save the PWM of the motors that the MW is writing to the multicopter
 RAW     =   0   # Ask and save the raw imu data of the multicopter
 MOTOR   =   0   # Ask and save the motors pwm of the multicopter
-ATTRC   =   1   # Ask and save the att & rc data of the multicopter
+ATTRC   =   0   # Ask and save the att & rc data of the multicopter
 CMD     =   0   # Send commands to the MW to control it
-UDP     =   0   # Save or use UDP data (to be adjusted)
+UDP     =   1   # Save or use UDP data (to be adjusted)
 SUDP    =   0   # Send UDP data
-TWIS    =   0   # Use twisted 
+TWIS    =   1   # Use twisted 
 visual3d    =   0   # 3D visualization
 
 
@@ -42,7 +42,7 @@ UDPip = "172.30.17.51" #MAST Lab IP flexaccess
 UDPport = 51001
 UDPportOut = 51002
 line = ""
-rate = 0.02
+rate = 0.01
 
 def get_ip_address(ifname):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
